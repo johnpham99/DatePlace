@@ -31,7 +31,12 @@ app.get("/", (req, res) => {
 
 app.get("/dateplaces", async (req, res) => {
     const dateplaces = await Dateplace.find({});
-    res.render("dateplaces/index", { dateplaces })
+    res.render("dateplaces/index", { dateplaces });
+})
+
+app.get("/dateplaces/:id", async (req, res) => {
+    const dateplace = await Dateplace.findById(req.params.id);
+    res.render("dateplaces/show", { dateplace });
 })
 
 app.listen(3000, () => {
