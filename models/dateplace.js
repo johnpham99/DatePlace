@@ -8,4 +8,4 @@ const DatePlaceSchema = new Schema({
     location: String
 });
 
-module.exports = mongoose.model("DatePlace", DatePlaceSchema);
+module.exports = mongoose.model("Dateplace", DatePlaceSchema);
