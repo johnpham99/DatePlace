@@ -29,10 +29,9 @@ app.get("/", (req, res) => {
     res.render("home");
 })
 
-app.get("/makedateplace", async (req, res) => {
-    const place = new Dateplace({ title: "Library", description: "books" });
-    await place.save();
-    res.send(place);
+app.get("/dateplaces", async (req, res) => {
+    const dateplaces = await Dateplace.find({});
+    res.render("dateplaces/index", { dateplaces })
 })
 
 app.listen(3000, () => {
