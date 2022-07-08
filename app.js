@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const Dateplace = require("./models/dateplace");
-
+const methodOverride = require("method-override");
 
 
 
@@ -26,6 +26,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
     res.render("home");
@@ -49,6 +50,17 @@ app.post("/dateplaces", async (req, res) => {
 app.get("/dateplaces/:id", async (req, res) => {
     const dateplace = await Dateplace.findById(req.params.id);
     res.render("dateplaces/show", { dateplace });
+})
+
+app.get("/dateplaces/:id/edit", async (req, res) => {
+    const dateplace = await Dateplace.findById(req.params.id);
+    res.render("dateplaces/edit", { dateplace });
+})
+
+app.put("/dateplaces/:id", async (req, res) => {
+    const { id } = req.params;
+    const dateplace = await Dateplace.findByIdAndUpdate(id, { ...req.body.dateplace })
+    res.redirect(`/dateplaces/${dateplace._id}`);
 })
 
 app.listen(3000, () => {
