@@ -38,14 +38,14 @@ app.get("/dateplaces", async (req, res) => {
     res.render("dateplaces/index", { dateplaces });
 })
 
-app.get("/dateplaces/new", (req, res) => {
-    res.render("dateplaces/new");
-})
-
 app.post("/dateplaces", async (req, res) => {
     const dateplace = new Dateplace(req.body.dateplace);
     await dateplace.save();
     res.redirect(`/dateplaces/${dateplace._id}`);
+})
+
+app.get("/dateplaces/new", (req, res) => {
+    res.render("dateplaces/new");
 })
 
 app.get("/dateplaces/:id", async (req, res) => {
