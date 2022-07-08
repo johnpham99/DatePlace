@@ -5,8 +5,29 @@
     </div>
     <ul>
         <% for (let dateplace of dateplaces) {%>
-            <li><a href="/dateplaces/<%= dateplace._id %>">
-                    <%= dateplace.title %>
-                </a></li>
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid" alt="" src="<%= dateplace.image %> ">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= dateplace.title%>
+                            </h5>
+                            <p class="card-text">
+                                <%= dateplace.description%>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <%= dateplace.location%>
+                                </small>
+                            </p>
+                            <a href="/dateplaces/<%= dateplace.id  %>" class="btn btn-primary">View <%= dateplace.title
+                                    %> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <% }%>
     </ul>
