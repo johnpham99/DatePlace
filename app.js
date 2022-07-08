@@ -63,6 +63,12 @@ app.put("/dateplaces/:id", async (req, res) => {
     res.redirect(`/dateplaces/${dateplace._id}`);
 })
 
+app.delete("/dateplaces/:id", async (req, res) => {
+    const { id } = req.params;
+    await Dateplace.findByIdAndDelete(id);
+    res.redirect("/dateplaces");
+})
+
 app.listen(3000, () => {
     console.log("Serving on port 3000");
 })

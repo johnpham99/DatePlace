@@ -18,6 +18,11 @@
     <p>
         <a href="/dateplaces/<%=dateplace._id%>/edit">Edit</a>
     </p>
+    <p>
+    <form action="/dateplaces/<%= dateplace._id %>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
+    </p>
     <footer>
         <a href="/dateplaces">All Date Places</a>
     </footer>
