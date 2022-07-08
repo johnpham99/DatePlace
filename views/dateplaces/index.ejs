@@ -10,6 +10,9 @@
 
 <body>
     <h1>All Date Places</h1>
+    <div>
+        <a href="/dateplaces/new">Add Date Place</a>
+    </div>
     <ul>
         <% for (let dateplace of dateplaces) {%>
             <li><a href="/dateplaces/<%= dateplace._id %>">

@@ -6,6 +6,7 @@ const Dateplace = require("./models/dateplace");
 
 
 const mongoose = require("mongoose");
+const dateplace = require("./models/dateplace");
 mongoose.connect("mongodb://localhost:27017/date-place", {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -24,6 +25,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
     res.render("home");
@@ -32,6 +34,16 @@ app.get("/", (req, res) => {
 app.get("/dateplaces", async (req, res) => {
     const dateplaces = await Dateplace.find({});
     res.render("dateplaces/index", { dateplaces });
+})
+
+app.get("/dateplaces/new", (req, res) => {
+    res.render("dateplaces/new");
+})
+
+app.post("/dateplaces", async (req, res) => {
+    const dateplace = new Dateplace(req.body.dateplace);
+    await dateplace.save();
+    res.redirect(`/dateplaces/${dateplace._id}`);
 })
 
 app.get("/dateplaces/:id", async (req, res) => {
