@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Date Place</title>
-</head>
-
-<body>
+<% layout("layouts/boilerplate")%>
     <h1>Edit Date Place</h1>
     <form action="/dateplaces/<%=dateplace._id%>?_method=PUT" method="POST">
         <div>
@@ -22,6 +12,3 @@
         <button>Update Date Place</button>
     </form>
     <a href="/dateplaces/<%= dateplace._id %> ">Back to Date Place</a>
-</body>
-
-</html>
