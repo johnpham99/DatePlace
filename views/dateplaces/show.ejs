@@ -1,22 +1,29 @@
 <% layout("layouts/boilerplate")%>
-    <h1>
-        <%= dateplace.title %>
-    </h1>
-    <h2>
-        <%= dateplace.location %>
-    </h2>
-    <img src="<%= dateplace.image %> " alt="">
-    <p>
-        <%= dateplace.description %>
-    </p>
-    <p>
-        <a href="/dateplaces/<%=dateplace._id%>/edit">Edit</a>
-    </p>
-    <p>
-    <form action="/dateplaces/<%= dateplace._id %>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    </p>
-    <footer>
-        <a href="/dateplaces">All Date Places</a>
-    </footer>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card mb-3">
+                <img src="<%= dateplace.image %> " class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= dateplace.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= dateplace.description %>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">
+                        <%= dateplace.location %>
+                    </li>
+                    <li class="list-group-item">$<%= dateplace.price %>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a class="card-link btn btn-info" href="/dateplaces/<%=dateplace._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/dateplaces/<%= dateplace._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                </div>
+                <div class="card-footer text-muted">2 days ago</div>
+            </div>
+        </div>
+    </div>
