@@ -6,7 +6,8 @@ const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const Joi = require("joi");
-const { dateplaceSchema } = require("./schemas.js")
+const { dateplaceSchema } = require("./schemas.js");
+const Review = require("./models/review");
 
 
 const mongoose = require("mongoose");
@@ -81,6 +82,15 @@ app.delete("/dateplaces/:id", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Dateplace.findByIdAndDelete(id);
     res.redirect("/dateplaces");
+}))
+
+app.post("/dateplaces/:id/reviews", catchAsync(async (req, res) => {
+    const dateplace = await Dateplace.findById(req.params.id);
+    const review = new Review(req.body.review);
+    dateplace.reviews.push(review);
+    await review.save();
+    await dateplace.save();
+    res.redirect(`/dateplaces/${dateplace._id}`);
 }))
 
 app.all("*", (req, res, next) => {
