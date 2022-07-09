@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+//const { dateplaceSchema } = require("../schemas");
 const Schema = mongoose.Schema;
+const Review = require("./review");
 
 const DatePlaceSchema = new Schema({
     title: String,
@@ -14,5 +16,15 @@ const DatePlaceSchema = new Schema({
         }
     ]
 });
+
+DatePlaceSchema.post("findOneAndDelete", async function (doc) {
+    if (doc) {
+        await Review.deleteMany({
+            _id: {
+                $in: doc.reviews
+            }
+        })
+    }
+})
 
 module.exports = mongoose.model("Dateplace", DatePlaceSchema);
