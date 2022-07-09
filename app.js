@@ -73,7 +73,8 @@ app.get("/dateplaces/new", (req, res) => {
 })
 
 app.get("/dateplaces/:id", catchAsync(async (req, res, next) => {
-    const dateplace = await Dateplace.findById(req.params.id);
+    const dateplace = await Dateplace.findById(req.params.id).populate("reviews");
+    console.log(dateplace);
     res.render("dateplaces/show", { dateplace });
 }))
 
