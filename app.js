@@ -6,7 +6,7 @@ const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const Joi = require("joi");
-const { dateplaceSchema } = require("./schemas.js");
+const { dateplaceSchema, reviewSchema } = require("./schemas.js");
 const Review = require("./models/review");
 
 
@@ -35,6 +35,16 @@ app.use(methodOverride("_method"));
 
 const validateDateplace = (req, res, next) => {
     const { error } = dateplaceSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(",");
         throw new ExpressError(msg, 400);
@@ -84,7 +94,7 @@ app.delete("/dateplaces/:id", catchAsync(async (req, res, next) => {
     res.redirect("/dateplaces");
 }))
 
-app.post("/dateplaces/:id/reviews", catchAsync(async (req, res) => {
+app.post("/dateplaces/:id/reviews", validateReview, catchAsync(async (req, res) => {
     const dateplace = await Dateplace.findById(req.params.id);
     const review = new Review(req.body.review);
     dateplace.reviews.push(review);
