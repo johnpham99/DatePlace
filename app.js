@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const dateplace = require("./models/dateplace");
 mongoose.connect("mongodb://localhost:27017/date-place", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
@@ -30,7 +30,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+app.use(express.static(path.join(__dirname, "public")));
 
 const dateplaces = require("./routes/dateplaces");
 const reviews = require("./routes/reviews");
