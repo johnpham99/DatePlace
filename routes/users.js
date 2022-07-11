@@ -30,13 +30,17 @@ router.get("/login", (req, res) => {
 
 router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), (req, res) => {
     req.flash("success", "Welcome Back!");
+    const redirectUrl = req.session.returnTo || "/dateplaces";
+    res.redirect(redirectUrl);
     res.redirect("/dateplaces");
 })
 
-router.get("/logout", (req, res) => {
-    req.logout();
-    req.flash("success", "We should do this again sometime!");
-    res.redirect("/dateplaces");
-})
+router.get("/logout", (req, res, next) => {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        req.flash("success", "We should do this again sometime!");
+        res.redirect("/dateplaces");
+    });
+});
 
 module.exports = router;
