@@ -30,6 +30,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, 'public')))
 
 const sessionConfig = {
     secret: "thisshouldbeabettersecret!",
@@ -57,11 +58,13 @@ app.use((req, res, next) => {
 });
 
 
-const dateplaces = require("./routes/dateplaces");
-const reviews = require("./routes/reviews");
+const dateplaceRoutes = require("./routes/dateplaces");
+const reviewRoutes = require("./routes/reviews");
+const userRoutes = require("./routes/users")
 
-app.use("/dateplaces", dateplaces);
-app.use("/dateplaces/:id/reviews", reviews);
+app.use("/dateplaces", dateplaceRoutes);
+app.use("/dateplaces/:id/reviews", reviewRoutes);
+app.use("/", userRoutes);
 
 
 
