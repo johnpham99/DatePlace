@@ -23,6 +23,7 @@ router.get("/", catchAsync(async (req, res, next) => {
 
 router.post("/", isLoggedIn, validateDateplace, catchAsync(async (req, res, next) => {
     const dateplace = new Dateplace(req.body.dateplace);
+    dateplace.author = req.user._id;
     await dateplace.save();
     req.flash("success", "Sucessfully made a new dateplace!");
     res.redirect(`/dateplaces/${dateplace._id}`);
@@ -33,7 +34,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 });
 
 router.get("/:id", catchAsync(async (req, res, next) => {
-    const dateplace = await Dateplace.findById(req.params.id).populate("reviews");
+    const dateplace = await Dateplace.findById(req.params.id).populate("reviews").populate("author");
     if (!dateplace) {
         req.flash("error", "Dateplace not found.");
         res.redirect("/dateplaces");
