@@ -5,18 +5,17 @@ const Dateplace = require("../models/dateplace");
 const { isLoggedIn, isAuthor, validateDateplace } = require("../middleware");
 const dateplaces = require("../controllers/dateplaces");
 
-router.get("/", catchAsync(dateplaces.index));
-
-router.post("/", isLoggedIn, validateDateplace, catchAsync(dateplaces.createDateplace));
+router.route("/")
+    .get(catchAsync(dateplaces.index))
+    .post(isLoggedIn, validateDateplace, catchAsync(dateplaces.createDateplace));
 
 router.get("/new", isLoggedIn, dateplaces.renderNewForm);
 
-router.get("/:id", catchAsync(dateplaces.showDateplace));
+router.route("/:id")
+    .get(catchAsync(dateplaces.showDateplace))
+    .put(isLoggedIn, isAuthor, validateDateplace, catchAsync(dateplaces.updateDateplace))
+    .delete(isLoggedIn, isAuthor, catchAsync(dateplaces.deleteDateplace));
 
 router.get("/:id/edit", isLoggedIn, isAuthor, catchAsync(dateplaces.renderEditForm));
 
-router.put("/:id", isLoggedIn, isAuthor, validateDateplace, catchAsync(dateplaces.updateDateplace));
-
-router.delete("/:id", isLoggedIn, isAuthor, catchAsync(dateplaces.deleteDateplace));
-
-module.exports = router;
+module.exports = router;    
