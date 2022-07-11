@@ -10,11 +10,7 @@ const upload = multer({ storage });
 
 router.route("/")
     .get(catchAsync(dateplaces.index))
-    //.post(isLoggedIn, validateDateplace, catchAsync(dateplaces.createDateplace));
-    .post(upload.array("image"), (req, res) => {
-        console.log(req.body, req.files);
-        res.send("It worked!");
-    })
+    .post(isLoggedIn, upload.array("image"), validateDateplace, catchAsync(dateplaces.createDateplace));
 
 router.get("/new", isLoggedIn, dateplaces.renderNewForm);
 

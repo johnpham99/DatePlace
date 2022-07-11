@@ -11,6 +11,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createDateplace = async (req, res, next) => {
     const dateplace = new Dateplace(req.body.dateplace);
+    dateplace.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     dateplace.author = req.user._id;
     await dateplace.save();
     req.flash("success", "Sucessfully made a new dateplace!");
