@@ -37,6 +37,15 @@
                     <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="mb-3">
+                    <% dateplace.images.forEach(function(img,i) { %>
+                        <img src="<%= img.url %>" alt="" class="img-thumbnail">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                        </div>
+                        <label for="image-<%=i%>">Delete?</label>
+                        <% }) %>
+                </div>
+                <div class="mb-3">
                     <button class="btn btn-info">Update Date Place</button>
                 </div>
             </form>
