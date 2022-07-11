@@ -1,20 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 const Dateplace = require("../models/dateplace");
-const { dateplaceSchema } = require("../schemas.js");
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, isAuthor, validateDateplace } = require("../middleware");
 
-const validateDateplace = (req, res, next) => {
-    const { error } = dateplaceSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(",");
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
 
 router.get("/", catchAsync(async (req, res, next) => {
     const dateplaces = await Dateplace.find({});
@@ -42,8 +31,9 @@ router.get("/:id", catchAsync(async (req, res, next) => {
     res.render("dateplaces/show", { dateplace });
 }));
 
-router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res, next) => {
-    const dateplace = await Dateplace.findById(req.params.id);
+router.get("/:id/edit", isLoggedIn, isAuthor, catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const dateplace = await Dateplace.findById(id);
     if (!dateplace) {
         req.flash("error", "Dateplace not found.");
         res.redirect("/dateplaces");
@@ -51,14 +41,13 @@ router.get("/:id/edit", isLoggedIn, catchAsync(async (req, res, next) => {
     res.render("dateplaces/edit", { dateplace });
 }));
 
-router.put("/:id", isLoggedIn, validateDateplace, catchAsync(async (req, res, next) => {
-    const { id } = req.params;
+router.put("/:id", isLoggedIn, isAuthor, validateDateplace, catchAsync(async (req, res, next) => {
     const dateplace = await Dateplace.findByIdAndUpdate(id, { ...req.body.dateplace })
     req.flash("success", "Successfully updated dateplace!")
     res.redirect(`/dateplaces/${dateplace._id}`);
 }));
 
-router.delete("/:id", isLoggedIn, catchAsync(async (req, res, next) => {
+router.delete("/:id", isLoggedIn, isAuthor, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Dateplace.findByIdAndDelete(id);
     req.flash("success", "Successfully deleted dateplace!")
