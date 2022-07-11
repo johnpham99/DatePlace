@@ -45,6 +45,9 @@ module.exports.renderEditForm = async (req, res, next) => {
 module.exports.updateDateplace = async (req, res, next) => {
     const { id } = req.params;
     const dateplace = await Dateplace.findByIdAndUpdate(id, { ...req.body.dateplace })
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    dateplace.images.push(...imgs);
+    await dateplace.save();
     req.flash("success", "Successfully updated dateplace!")
     res.redirect(`/dateplaces/${dateplace._id}`);
 }
