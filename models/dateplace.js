@@ -12,6 +12,8 @@ ImageSchema.virtual("thumbnail").get(function () {
     return this.url.replace("/upload", "/upload/w_200/h_175");
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const DatePlaceSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -39,6 +41,11 @@ const DatePlaceSchema = new Schema({
             ref: "Review"
         }
     ]
+}, opts);
+
+DatePlaceSchema.virtual("properties.popUpMarkup").get(function () {
+    return `<strong><a href="/dateplaces/${this._id}">${this.title}</a><strong>
+    <p>${this.description.substring(0, 20)}...</p>`
 });
 
 DatePlaceSchema.post("findOneAndDelete", async function (doc) {

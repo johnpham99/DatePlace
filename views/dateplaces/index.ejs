@@ -40,5 +40,6 @@
 
     <script>
         const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const dateplaces = {features: <%- JSON.stringify(dateplaces) %>} //cmd+k , then s to save file with no auto formatting
     </script>
     <script src="/javascripts/clusterMap.js"></script>
