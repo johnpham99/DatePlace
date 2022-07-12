@@ -12,4 +12,10 @@ map.on('style.load', () => {
 
 new mapboxgl.Marker()
     .setLngLat(dateplace.geometry.coordinates)
+    .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+            .setHTML(
+                `<h3>${dateplace.title}</h3><p>${dateplace.location}</p>`
+            )
+    )
     .addTo(map);
