@@ -1,4 +1,5 @@
 const Dateplace = require("../models/dateplace");
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res, next) => {
     const dateplaces = await Dateplace.find({});
@@ -48,6 +49,9 @@ module.exports.updateDateplace = async (req, res, next) => {
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     dateplace.images.push(...imgs);
     if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
         await dateplace.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
     }
     await dateplace.save();
