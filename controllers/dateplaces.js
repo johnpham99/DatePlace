@@ -1,5 +1,8 @@
 const Dateplace = require("../models/dateplace");
 const { cloudinary } = require("../cloudinary");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.index = async (req, res, next) => {
     const dateplaces = await Dateplace.find({});
@@ -11,6 +14,10 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createDateplace = async (req, res, next) => {
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.dateplace.location,
+        limit: 1
+    }).send();
     const dateplace = new Dateplace(req.body.dateplace);
     dateplace.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     dateplace.author = req.user._id;
