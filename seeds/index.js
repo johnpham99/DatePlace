@@ -27,14 +27,15 @@ const seedDB = async () => {
             title: `${sample(descriptors)} ${sample(places)}`,
             description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda reprehenderit repellendus impedit dolore. Placeat hic est iste, soluta, numquam consectetur non facilis nihil, voluptatum ullam vero nam ratione nesciunt exercitationem.",
             price,
+            geometry: { type: 'Point', coordinates: [-84.394711, 33.7763205] },
             images: [
                 {
-                    url: 'https://res.cloudinary.com/dsboaq7d0/image/upload/v1657574037/povw1zl9r1ofjiyzng0n.jpg',
-                    filename: 'povw1zl9r1ofjiyzng0n'
+                    url: 'https://res.cloudinary.com/dsboaq7d0/image/upload/v1657593889/threecoffees_t7tgta.jpg',
+                    filename: 'threecoffees_t7tgta'
                 },
                 {
-                    url: 'https://res.cloudinary.com/dsboaq7d0/image/upload/v1657574037/s8wvenmxdw9ywidrxsj6.jpg',
-                    filename: 's8wvenmxdw9ywidrxsj6'
+                    url: 'https://res.cloudinary.com/dsboaq7d0/image/upload/v1657593889/romanticdinner_gvmzqj.jpg',
+                    filename: 'romanticdinner_gvmzqj'
                 }
             ]
         })
