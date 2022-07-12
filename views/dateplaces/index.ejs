@@ -1,4 +1,5 @@
 <% layout("layouts/boilerplate")%>
+    <div id="map" style="width: 100%; height: 500px"></div>
     <h1>All Date Places</h1>
     <div>
         <a href="/dateplaces/new">Add Date Place</a>
@@ -36,3 +37,8 @@
             </div>
             <% }%>
     </ul>
+
+    <script>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    </script>
+    <script src="/javascripts/clusterMap.js"></script>
