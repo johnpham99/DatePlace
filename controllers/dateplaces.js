@@ -19,6 +19,7 @@ module.exports.createDateplace = async (req, res, next) => {
         limit: 1
     }).send();
     const dateplace = new Dateplace(req.body.dateplace);
+    dateplace.geometry = geoData.body.features[0].geometry;
     dateplace.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     dateplace.author = req.user._id;
     await dateplace.save();
