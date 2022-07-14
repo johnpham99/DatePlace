@@ -19,7 +19,7 @@ module.exports.createDateplace = async (req, res, next) => {
         limit: 1
     }).send();
     const dateplace = new Dateplace(req.body.dateplace);
-    if (!geoData.body.feature) {
+    if (!geoData.body.features) {
         dateplace.geometry = { type: 'Point', coordinates: [-84.394711, 33.7763205] };
     } else {
         dateplace.geometry = geoData.body.features[0].geometry;
