@@ -35,9 +35,6 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted">
                         <%= dateplace.location %>
-                    </li>
-                    <li class="list-group-item">Submitted by <%= dateplace.author.username %>
-                    </li>
                     <li class="list-group-item">$<%= dateplace.price %>
                     </li>
                 </ul>
@@ -49,7 +46,8 @@
                         </form>
                     </div>
                     <% } %>
-                        <div class="card-footer text-muted">2 days ago</div>
+                        <div class="card-footer text-muted">Submitted by <%= dateplace.author.username %>
+                        </div>
             </div>
         </div>
         <div class="col-6">
