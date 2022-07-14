@@ -57,16 +57,21 @@ module.exports.renderEditForm = async (req, res, next) => {
 
 module.exports.updateDateplace = async (req, res, next) => {
     const { id } = req.params;
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.dateplace.location,
+        limit: 1
+    }).send();
     const dateplace = await Dateplace.findByIdAndUpdate(id, { ...req.body.dateplace })
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     dateplace.images.push(...imgs);
+    dateplace.geometry = geoData.body.features[0].geometry;
+    await dateplace.save();
     if (req.body.deleteImages) {
         for (let filename of req.body.deleteImages) {
             await cloudinary.uploader.destroy(filename);
         }
         await dateplace.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
     }
-    await dateplace.save();
     req.flash("success", "Successfully updated dateplace!")
     res.redirect(`/dateplaces/${dateplace._id}`);
 }
